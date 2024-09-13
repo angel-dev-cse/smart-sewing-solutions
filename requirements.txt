@@ -1,0 +1,49 @@
+Users / User Types: (Organization = Shop)
+1) Admin
+2) Employee (Organization)
+3) Customer (Individual / Organization)
+4) Seller (Individual / Organization)
+
+Admin: Can not register directly. (Super Admin can create another admin)
+Admin: Can ban other Users
+Admin: Can manage Organizations and Shops on a global scale (Admin specific functions)
+
+
+Employee:
+  Owner: Can view/add/modify/delete Notice (Including all other functionalities of the employees)
+  Owner: Can view/add/modify/delete Employee (Including all other functionalities of the employees)
+
+  Manager: Can view/add/modify/delete Machine
+  Manager: Can view/add/modify/delete Components (Machine Parts or Extensions)
+  Manager: Can view/add/modify/delete Challan
+  Manager: Can view/add/modify/delete Bill
+  Manager: Can view/add/modify/delete Order
+  Manager: Can view/add/modify/delete Employee
+  Manager: Can view/add/modify/delete Transaction
+  Manager: Can view/add/modify/delete Ticket
+  Manager: Can view/add/modify/delete Client
+  Manager: Can view/add/modify/delete Company/Organization (that Manager's Organization have a business relationship with)
+  Manager: Can view/add/modify/delete Notice
+
+  Mechanic: Can view Tickets (that are assigned to him)
+  Mechanic: Can issue/view/modify orders for Parts
+  Mechanic: Can issue/view/modify orders for Tools
+  Mechanic: Can issue/view/modify orders for Components
+
+  Accountant: Can view/add/modify/delete Transaction
+
+Client: (Registered as a company)
+1) Can view/add/modify/delete Employee - Employees can perform aforementioned tasks
+2) Can manage machine's visibilty / placement for sale/rent in the market
+
+Client: (Registered as Individual)
+1) Can view/order/rent/buy/sell Machine
+1) Can view/order/rent/buy/sell Components (Machine Parts or Extensions)
+
+
+
+
+
+
+Scenario 1:
+A new user registers in the system 
