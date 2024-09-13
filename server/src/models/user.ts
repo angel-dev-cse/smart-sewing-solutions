@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { Roles } from "./roles";
 import { Positions } from "./positions";
+import bcrypt from "bcrypt";
 
 interface IUser extends Document {
   name: string;
@@ -72,6 +73,13 @@ var userSchema: Schema = new Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre<IUser>("save", async function(next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
 
 //Export the model
 const User = mongoose.model<IUser>("User", userSchema);

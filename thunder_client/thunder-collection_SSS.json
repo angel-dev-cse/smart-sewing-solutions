@@ -1,0 +1,36 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "SSS",
+    "collectionId": "c450e73c-c644-4e17-a431-394c9dd7cd86",
+    "dateExported": "2024-09-13T05:54:46.672Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "c28bacb9-117f-4069-a8fe-51a3f8374aa5",
+            "name": "auth",
+            "containerId": "",
+            "created": "2024-09-13T05:49:49.968Z",
+            "sortNum": 10000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "1433051c-e757-4d75-9929-cc22ed800411",
+            "colId": "c450e73c-c644-4e17-a431-394c9dd7cd86",
+            "containerId": "c28bacb9-117f-4069-a8fe-51a3f8374aa5",
+            "name": "register",
+            "url": "{{BASE_URL}}/api/auth/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-09-13T05:49:56.120Z",
+            "modified": "2024-09-13T05:53:57.472Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"email\" : \"user1@gmail.com\", \"password\" : \"pass\"}",
+                "form": []
+            }
+        }
+    ],
+    "ref": "rxoH7b0jsMbGW_uPVzkdL1a-0v44WAXReKdq2ZOhTwvSupm_Lz1KsDGryvpu0-FUUvZJzuIKPwj8CFB2ihD7kg"
+}

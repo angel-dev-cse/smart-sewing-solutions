@@ -1,6 +1,20 @@
 export const Roles = {
-  ADMIN: 'admin',
-  CUSTOMER: 'customer',
-  VENDOR: 'vendor',
-  EMPLOYEE: 'employee',
-}
+  ADMIN: "admin",
+  MANAGER: "manager",
+  MECHANIC: "mechanic",
+  TECHNICIAN: "technician",
+  MANAGING_DIRECTOR: "managing_director",
+  CEO: "ceo",
+  ACCOUNTANT: "accountant",
+  SALES: "sales",
+  DRIVER: "driver",
+  CLEANER: "cleaner",
+  SECURITY: "security",
+  DISPATCHER: "dispatcher",
+  SUPERVISOR: "supervisor",
+  IT: "it",
+  HR: "hr",
+  RECEPTIONIST: "receptionist",
+  CUSTOMER_SERVICE: "customer_service",
+  
+};
