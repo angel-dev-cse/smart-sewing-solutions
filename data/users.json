@@ -1,0 +1,1 @@
+{"_id":{"$oid":"66e706755a5ed3101a750e25"},"name":"user1","email":"user1@gmail.com","password":"$2b$10$gBcVYGX88DM1yKXmW533WeAqbztoUkXvfCjt61ZHGAwOWMRAwbJYW","mobile":"123","emailVerified":false,"mobileVerified":false,"NIDVerified":false,"roles":[],"createdAt":{"$date":"2024-09-15T16:08:21.144Z"},"updatedAt":{"$date":"2024-09-15T16:08:21.144Z"},"__v":0}
