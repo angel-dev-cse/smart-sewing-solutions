@@ -1,3 +1,4 @@
+import { required } from "joi";
 import mongoose, { Schema, Document, mongo } from "mongoose";
 
 interface IMachine extends Document {
@@ -35,7 +36,12 @@ const machineSchema: Schema = new Schema({
     required: true,
     unique: true,
   },
-  owner: {type: mongoose.Schema.Types.ObjectId, ref: "Organization"},
+  ownerType : {
+    type: String,
+    enum: ["Organization", "User"],
+    default: "Organization",
+  },
+  owner: {refPath: "ownerType"},
   price: { type: Number, default: 0 },
   rent: { type: Number, default: 0 }, // changes based on organization (later might be an object)
   tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ticket" }],
