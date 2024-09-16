@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { Roles } from "./role";
+import { Roles } from "./Role";
 import bcrypt from "bcrypt";
 
 interface IUser extends Document {
