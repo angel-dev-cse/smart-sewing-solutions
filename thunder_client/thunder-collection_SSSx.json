@@ -1,0 +1,55 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "SSS",
+    "collectionId": "1000fe00-86d6-4542-9c8b-b7a5e1cf6a8e",
+    "dateExported": "2024-09-17T08:21:19.258Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "c28bacb9-117f-4069-a8fe-51a3f8374aa5",
+            "name": "auth",
+            "containerId": "",
+            "created": "2024-09-13T05:49:49.968Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "ed6740ae-28ac-49d0-913c-f485c4e2406f",
+            "name": "user",
+            "containerId": "",
+            "created": "2024-09-13T15:33:26.585Z",
+            "sortNum": 20000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "1433051c-e757-4d75-9929-cc22ed800411",
+            "colId": "c450e73c-c644-4e17-a431-394c9dd7cd86",
+            "containerId": "c28bacb9-117f-4069-a8fe-51a3f8374aa5",
+            "name": "register",
+            "url": "{{BASE_URL}}/api/auth/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-09-13T05:49:56.120Z",
+            "modified": "2024-09-13T07:34:10.024Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"user1\",\n  \"email\": \"user1@gmail.com\",\n  \"password\": \"password\",\n  \"mobile\": 123\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "f32c061f-3cc5-4f69-93c7-b8851bd42201",
+            "colId": "c450e73c-c644-4e17-a431-394c9dd7cd86",
+            "containerId": "ed6740ae-28ac-49d0-913c-f485c4e2406f",
+            "name": "Get an user",
+            "url": "{{BASE_URL}}/api/users/66e3f8ea7cf4df8de9eeea73",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-09-13T15:33:40.241Z",
+            "modified": "2024-09-13T15:38:21.832Z",
+            "headers": []
+        }
+    ],
+    "ref": "2LBtwjAkxhSCPwEsUfbaUGijnDeFGzQbLUIElfmt-GLG9rmf-f59AmsGjVYoKu-_5LyMcMmlJHR0zycvGYgbwg"
+}

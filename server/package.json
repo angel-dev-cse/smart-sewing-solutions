@@ -7,7 +7,8 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon",
-    "db:export": "cd .. && cd data && mongoexport --db=sss --collection=users --out=users.json && mongoexport --db=sss --collection=organizations --out=organizations.json && mongoexport --db=sss --collection=inventory --out=inventory.json && mongoexport --db=sss --collection=machines --out=machines.json && mongoexport --db=sss --collection=machinecategories --out=machinecategories.json && mongoexport --db=sss --collection=orders --out=orders.json && mongoexport --db=sss --collection=carts --out=carts.json && mongoexport --db=sss --collection=tickets --out=tickets.json"
+    "db:export": "cd .. && cd data && mongoexport --db=sss --collection=users --out=users.json && mongoexport --db=sss --collection=organizations --out=organizations.json && mongoexport --db=sss --collection=inventory --out=inventory.json && mongoexport --db=sss --collection=machines --out=machines.json && mongoexport --db=sss --collection=machinecategories --out=machinecategories.json && mongoexport --db=sss --collection=orders --out=orders.json && mongoexport --db=sss --collection=carts --out=carts.json && mongoexport --db=sss --collection=tickets --out=tickets.json",
+    "db:import": "cd .. && cd data && mongoimport --db=sss --collection=users --file=users.json && mongoimport --db=sss --collection=organizations --file=organizations.json && mongoimport --db=sss --collection=inventory --file=inventory.json && mongoimport --db=sss --collection=machines --file=machines.json && mongoimport --db=sss --collection=machinecategories --file=machinecategories.json && mongoimport --db=sss --collection=orders --file=orders.json && mongoimport --db=sss --collection=carts --file=carts.json && mongoimport --db=sss --collection=tickets --file=tickets.json"
   },
   "keywords": [
     "sewing",
