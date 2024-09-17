@@ -9,4 +9,10 @@ const getAnUser = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
-export {getAnUser};
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find();
+
+  res.status(200).json({message: "Retrieved users!", users});
+});
+
+export { getAnUser, getUsers };
