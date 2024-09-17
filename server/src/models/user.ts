@@ -41,6 +41,7 @@ var userSchema: Schema = new Schema(
     NID: {
       type: String,
       unique: true,
+      sparse: true,
     },
     roles: [
       {
