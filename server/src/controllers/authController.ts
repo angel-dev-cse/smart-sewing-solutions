@@ -1,12 +1,13 @@
 import {Request, Response} from "express";
-import User from "../models/user";
+import jwt from "jsonwebtoken";
+import User from "../models/User";
 import asyncHandler from "express-async-handler";
 import { registerSchema } from "../validations/authValidation";
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
-export const register = asyncHandler(async (req:Request, res:Response): Promise<void> => {
+const register = asyncHandler(async (req:Request, res:Response): Promise<void> => {
   const { error } = registerSchema.validate(req.body);
 
   if (error) {
@@ -22,4 +23,30 @@ export const register = asyncHandler(async (req:Request, res:Response): Promise<
   res.status(200).json({ message: "User registered successfully", user: user });
 });
 
-module.exports = { register };
+// @desc    Login a user
+// @route   POST /api/auth/login
+// @access  Public
+const login = asyncHandler(async (req:Request, res:Response): Promise<void> => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({email});
+
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+    return;
+  }
+
+  const isMatch = await user.comparePassword(password);
+
+  if (!isMatch) {
+    res.status(401).json({ message: "Invalid credentials" });
+    return;
+  }
+
+  const accessToken = jwt.sign({userId:user._id}, process.env.JWT_SECRET as string, {expiresIn: "15m"});
+  const refreshToken = jwt.sign({userId:user._id}, process.env.JWT_SECRET as string, {expiresIn: "7d"});
+
+  res.status(200).json({ message: "User logged in successfully", accessToken, refreshToken });
+});
+
+export { register };

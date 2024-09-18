@@ -15,6 +15,8 @@ interface IUser extends Document {
   emailVerified: boolean;
   mobileVerified: boolean;
   NIDVerified: boolean;
+  passwordResetToken: string;
+  comparePassword(enteredPassword: string): Promise<boolean>;
 }
 
 // Declare the Schema of the Mongo model
@@ -68,6 +70,7 @@ var userSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    passwordResetToken: String,
   },
   {
     timestamps: true,
@@ -80,6 +83,10 @@ userSchema.pre<IUser>("save", async function(next) {
   }
   next();
 });
+
+userSchema.methods.comparePassword = async function(enteredPassword: string) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 //Export the model
 const User = mongoose.model<IUser>("User", userSchema);
