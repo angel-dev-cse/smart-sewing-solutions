@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 import asyncHandler from "express-async-handler";
-import { registerSchema } from "../validations/authValidation";
+import { registerSchema, loginSchema } from "../validations/authValidation";
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
@@ -29,6 +29,13 @@ const register = asyncHandler(async (req:Request, res:Response): Promise<void> =
 const login = asyncHandler(async (req:Request, res:Response): Promise<void> => {
   const { email, password } = req.body;
 
+  const error = loginSchema.validate(req.body).error;
+
+  if (error) {
+    res.status(400).json({ message: error.message });
+    return;
+  }
+
   const user = await User.findOne({email});
 
   if (!user) {
@@ -49,4 +56,4 @@ const login = asyncHandler(async (req:Request, res:Response): Promise<void> => {
   res.status(200).json({ message: "User logged in successfully", accessToken, refreshToken });
 });
 
-export { register };
+export { register, login };

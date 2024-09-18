@@ -7,4 +7,9 @@ const registerSchema = Joi.object({
   mobile: Joi.number().required(),
 });
 
-export { registerSchema };
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required().min(5),
+});
+
+export { registerSchema, loginSchema };
