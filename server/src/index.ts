@@ -5,6 +5,7 @@ dotenv.config();
 import dbConnection from "./utils/dbConnection";
 dbConnection();
 
+
 import authRouter from "./routes/authRoutes";
 import userRouter from "./routes/userRoutes";
 
