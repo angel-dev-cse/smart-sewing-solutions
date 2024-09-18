@@ -9,7 +9,7 @@ interface IUser extends Document {
   mobile: string;
   NID?: string;
   roles: Array<{
-    organizationId: mongoose.Types.ObjectId;
+    organizationId: mongoose.Schema.Types.ObjectId;
     role: string;
   }>;
   emailVerified: boolean;
@@ -37,8 +37,28 @@ var userSchema: Schema = new Schema(
       required: true,
     },
     mobile: {
-      type: String,
-      unique: true,
+      countryCode: {
+        type: String,
+        required: true,
+        validate: {
+          validator: function (v: string) {
+            return /^\+\d{1,3}$/.test(v); // Example: +1, +91
+          },
+          message: (props: { value: any }) =>
+            `${props.value} is not a valid country code!`,
+        },
+      },
+      number: {
+        type: String,
+        required: true,
+        validate: {
+          validator: function (v: string) {
+            return /^\d{7,}$/.test(v); // Example: 1234567890
+          },
+          message: (props: { value: any }) =>
+            `${props.value} must be at least 7 digit long!`,
+        },
+      },
     },
     NID: {
       type: String,
@@ -48,7 +68,7 @@ var userSchema: Schema = new Schema(
     roles: [
       {
         organizationId: {
-          type: mongoose.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           required: true,
         },
         role: {
@@ -81,14 +101,14 @@ var userSchema: Schema = new Schema(
   }
 );
 
-userSchema.pre<IUser>("save", async function(next) {
+userSchema.pre<IUser>("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
   }
   next();
 });
 
-userSchema.methods.comparePassword = async function(enteredPassword: string) {
+userSchema.methods.comparePassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
