@@ -11,16 +11,20 @@ const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) 
   if (authHeader) {
     const token = authHeader.split(' ')[1];
 
-    jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET as string, (err, decodedToken:any) => {
       if (err) {
         return res.status(403).json({ message: 'Invalid token!' });
       }
 
-      req.user = user;
+      if(decodedToken.tokenType !== 'access') {
+        return res.status(403).json({ message: 'Invalid token type!' });
+      }
+
+      req.user = decodedToken;
       next();
     });
   } else {
-    return res.status(403).json({ message: 'Invalid header!' });
+    return res.status(403).json({ message: 'Invalid authentication header!' });
   }
 }
 

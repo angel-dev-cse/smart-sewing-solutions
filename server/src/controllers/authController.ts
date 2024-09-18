@@ -50,8 +50,8 @@ const login = asyncHandler(async (req:Request, res:Response): Promise<void> => {
     return;
   }
 
-  const accessToken = jwt.sign({userId:user._id}, process.env.JWT_SECRET as string, {expiresIn: "15m"});
-  const refreshToken = jwt.sign({userId:user._id}, process.env.JWT_SECRET as string, {expiresIn: "7d"});
+  const accessToken = jwt.sign({userId:user._id, tokenType:"access"}, process.env.JWT_SECRET as string, {expiresIn: "15m"});
+  const refreshToken = jwt.sign({userId:user._id, tokenType:"refresh"}, process.env.JWT_SECRET as string, {expiresIn: "7d"});
 
   res.status(200).json({ message: "User logged in successfully", accessToken, refreshToken });
 });
