@@ -6,7 +6,10 @@ interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  mobile: string;
+  mobile: {
+    countryCode: string;
+    number: string;
+  },
   NID?: string;
   roles: Array<{
     organizationId: mongoose.Schema.Types.ObjectId;
@@ -16,6 +19,7 @@ interface IUser extends Document {
   mobileVerified: boolean;
   NIDVerified: boolean;
   passwordResetToken: string;
+  passwordResetTokenExpires: Date;
   comparePassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -95,6 +99,7 @@ var userSchema: Schema = new Schema(
       default: false,
     },
     passwordResetToken: String,
+    passwordResetTokenExpires: Date,
   },
   {
     timestamps: true,
