@@ -12,7 +12,7 @@ const getAnUser = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
 
-  res.status(200).json({message: "Retrieved users!", users});
+  res.status(200).json({users});
 });
 
 export { getAnUser, getUsers };
