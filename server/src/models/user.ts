@@ -58,6 +58,10 @@ var userSchema: Schema = new Schema(
         },
       },
     ],
+    SYSTEM_ADMIN: {
+      type: Boolean,
+      default: false,
+    },
     emailVerified: {
       type: Boolean,
       default: false,

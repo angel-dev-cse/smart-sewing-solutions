@@ -5,7 +5,7 @@ interface CustomRequest extends Request {
   user?: any;
 }
 
-const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
+const authAccessJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
   if (authHeader) {
@@ -28,4 +28,12 @@ const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) 
   }
 }
 
-export { authenticateJWT };
+const authSysAdmin= (req: CustomRequest, res: Response, next: NextFunction) => {
+  if(!req.user.SYSTEM_ADMIN) {
+    return res.status(403).json({ message: 'Unauthorized access!' });
+  }
+
+  next();
+}
+
+export { authAccessJWT, authSysAdmin };

@@ -1,10 +1,10 @@
 import express from "express"
 const router = express.Router();
 
-import { authenticateJWT } from "../middlewares/authMiddleware";
+import { authAccessJWT, authSysAdmin } from "../middlewares/authMiddleware";
 import { getAnUser, getUsers } from "../controllers/userController";
 
-router.get("/:id", getAnUser);
-router.get("/", authenticateJWT, getUsers);
+router.get("/:id", authAccessJWT, getAnUser);
+router.get("/", authAccessJWT, authSysAdmin, getUsers);
 
 export default router;
