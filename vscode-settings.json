@@ -3,24 +3,6 @@
     {
       "splitTerminals": [
         {
-          "name": "MongoDB Data export",
-          "commands": [
-            "cd data/",
-            "mongoexport --db=sss --collection=users --out=users.json",
-            "mongoexport --db=sss --collection=organizations --out=organizations.json",
-            "mongoexport --db=sss --collection=inventory --out=inventory.json",
-            "mongoexport --db=sss --collection=machines --out=machines.json",
-            "mongoexport --db=sss --collection=machinecategories --out=machinecategories.json",
-            "mongoexport --db=sss --collection=orders --out=orders.json",
-            "mongoexport --db=sss --collection=carts --out=carts.json",
-            "mongoexport --db=sss --collection=tickets --out=tickets.json"
-          ]
-        }
-      ]
-    },
-    {
-      "splitTerminals": [
-        {
           "name": "server",
           "commands": ["cd server/", "npm run dev"]
         }
