@@ -85,6 +85,7 @@ public/static
 
 # Local env files
 .env
+/.env
 .env.local
 .env.development.local
 .env.test.local
