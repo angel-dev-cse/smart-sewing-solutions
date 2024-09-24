@@ -179,4 +179,9 @@ const resetPassword = asyncHandler(
   }
 );
 
-export { register, login, requestPasswordReset, resetPassword };
+const logout = asyncHandler(async (req: Request, res: Response) => {
+  // remove accessToken and refreshToken from client side
+  res.json({ message: "Logged out successfully" });
+});
+
+export { register, login, requestPasswordReset, resetPassword, logout };
