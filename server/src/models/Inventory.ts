@@ -12,3 +12,5 @@ const inventory = new Schema({
     },
   ],
 });
+
+export default inventory;
