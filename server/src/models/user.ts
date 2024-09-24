@@ -9,7 +9,7 @@ interface IUser extends Document {
   mobile: {
     countryCode: string;
     number: string;
-  },
+  };
   NID?: string;
   roles: Array<{
     organizationId: mongoose.Schema.Types.ObjectId;
@@ -18,8 +18,8 @@ interface IUser extends Document {
   emailVerified: boolean;
   mobileVerified: boolean;
   NIDVerified: boolean;
-  passwordResetToken: string;
-  passwordResetTokenExpires: Date;
+  resetPasswordToken?: string;
+  resetPasswordTokenExpires?: Date;
   comparePassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -98,8 +98,8 @@ var userSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
-    passwordResetToken: String,
-    passwordResetTokenExpires: Date,
+    resetPasswordToken: { type: String, default: undefined },
+    resetPasswordTokenExpires: { type: Date, default: undefined },
   },
   {
     timestamps: true,

@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import User from "../models/User";
 import asyncHandler from "express-async-handler";
 
-import { registerSchema, loginSchema } from "../validations/authValidation";
+import {
+  registerSchema,
+  loginSchema,
+  requestPasswordResetSchema,
+  resetPasswordSchema,
+} from "../validations/authValidation";
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
@@ -35,14 +41,14 @@ const register = asyncHandler(
 // @access  Public
 const login = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    const { email, password } = req.body;
-
     const error = loginSchema.validate(req.body).error;
 
     if (error) {
       res.status(400).json({ message: error.message });
       return;
     }
+
+    const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
@@ -79,6 +85,13 @@ const login = asyncHandler(
 
 const requestPasswordReset = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
+    const error = requestPasswordResetSchema.validate(req.body).error;
+
+    if (error) {
+      res.status(400).json({ message: error.message });
+      return;
+    }
+
     const { email } = req.body;
 
     const user = await User.findOne({ email });
@@ -94,8 +107,8 @@ const requestPasswordReset = asyncHandler(
       .update(resetToken)
       .digest("hex");
 
-    user.passwordResetToken = resetTokenHash;
-    user.passwordResetTokenExpires = new Date(Date.now() + 10 * 60 * 1000); // valid for 10 minutes
+    user.resetPasswordToken = resetTokenHash;
+    user.resetPasswordTokenExpires = new Date(Date.now() + 10 * 60 * 1000); // valid for 10 minutes
 
     await user.save();
 
@@ -103,8 +116,8 @@ const requestPasswordReset = asyncHandler(
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASS,
       },
     });
 
@@ -125,4 +138,45 @@ const requestPasswordReset = asyncHandler(
   }
 );
 
-export { register, login };
+const resetPassword = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const error = resetPasswordSchema.validate({
+      token: req.params.token,
+      password: req.body.password,
+    }).error;
+
+    if (error) {
+      res.status(400).json({ message: error.message });
+      return;
+    }
+
+    const { token } = req.params;
+    const { password } = req.body; // new password
+
+    // Hash the provided token to compare
+    const resetTokenHash = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: resetTokenHash,
+      resetPasswordTokenExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      res.status(400).json({ error: "Invalid or expired token" });
+      return;
+    }
+
+    // Reset password
+    user.password = await bcrypt.hash(password, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordTokenExpires = undefined;
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  }
+);
+
+export { register, login, requestPasswordReset, resetPassword };
