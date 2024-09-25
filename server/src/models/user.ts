@@ -82,10 +82,6 @@ var userSchema: Schema = new Schema(
         },
       },
     ],
-    inventory: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Inventory"
-    },
     SYSTEM_ADMIN: {
       type: Boolean,
       default: false,
