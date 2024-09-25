@@ -8,12 +8,14 @@ dbConnection();
 
 import authRouter from "./routes/authRoutes";
 import userRouter from "./routes/userRoutes";
+import organizationRouter from "./routes/organizationRoutes";
 
 const app = express();
 
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/organizations", organizationRouter);
 
 app.get("/", (req, res) => {
   res.json("Hello from SSS");
