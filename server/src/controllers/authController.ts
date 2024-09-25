@@ -170,7 +170,7 @@ const resetPassword = asyncHandler(
     }
 
     // Reset password
-    user.password = await bcrypt.hash(password, 10);
+    user.password = password;
     user.resetPasswordToken = undefined;
     user.resetPasswordTokenExpires = undefined;
     await user.save();
@@ -179,33 +179,45 @@ const resetPassword = asyncHandler(
   }
 );
 
-const refreshAccessToken = (req: Request, res: Response) => {
-  const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+const refreshAccessToken = asyncHandler(async(req: Request, res: Response): Promise<void> => {
+  const refreshToken = req.body.refreshToken;
 
   if (!refreshToken) {
-    return res.status(401).json({ message: "No refresh token provided!" });
+    res.status(401).json({ message: "No refresh token provided!" });
+    return;
   }
 
   // Verify the refresh token
-  jwt.verify(refreshToken, process.env.JWT_SECRET as string, (err: any, decodedToken: any) => {
-    if (err || decodedToken.tokenType !== "refresh") {
-      return res.status(403).json({ message: "Invalid refresh token!" });
+  jwt.verify(
+    refreshToken,
+    process.env.JWT_SECRET as string,
+    (err: any, decodedToken: any) => {
+      if (err || decodedToken.tokenType !== "refresh") {
+        return res.status(403).json({ message: "Invalid refresh token!" });
+      }
+
+      // Generate a new access token
+      const newAccessToken = jwt.sign(
+        { userId: decodedToken.userId, tokenType: "access" },
+        process.env.JWT_SECRET as string,
+        { expiresIn: "15m" }
+      );
+
+      res.status(200).json({ accessToken: newAccessToken });
     }
-
-    // Generate a new access token
-    const newAccessToken = jwt.sign(
-      { userId: decodedToken.userId, tokenType: "access" },
-      process.env.JWT_SECRET as string,
-      { expiresIn: "15m" }
-    );
-
-    res.status(200).json({ accessToken: newAccessToken });
-  });
-};
+  );
+});
 
 const logout = asyncHandler(async (req: Request, res: Response) => {
   // remove accessToken and refreshToken from client side
   res.json({ message: "Logged out successfully" });
 });
 
-export { register, login, requestPasswordReset, resetPassword, refreshAccessToken, logout };
+export {
+  register,
+  login,
+  requestPasswordReset,
+  resetPassword,
+  refreshAccessToken,
+  logout,
+};
