@@ -1,35 +1,80 @@
-import mongoose, {Document, Schema} from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 interface IOrganization extends Document {
   name: string;
   email: string;
-  mobile: string;
-  address: string;
+  mobile: {
+    countryCode: string;
+    number: string;
+  };
+  address: {
+    building: string;
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+  };
   category: string[];
   documents: {
-    TIN: string;
-    TRADE_LICENSE: string;
-    BIN: string;
+    TIN?: string;
+    TRADE_LICENSE?: string;
+    BIN?: string;
   };
-  admin: mongoose.Types.ObjectId[]; // Array of user IDs (admins)
-  employees: mongoose.Types.ObjectId[]; // Array of user IDs (employees)
+  admin: Schema.Types.ObjectId; // Array of user IDs (admins)
+  employees?: [Schema.Types.ObjectId]; // Array of user IDs (employees)
   verified: boolean;
 }
 
 const OrganizationSchema: Schema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  mobile: { type: String, required: true },
-  address: { type: String, required: true },
+  mobile: {
+    countryCode: {
+      type: String,
+      required: true,
+      validate: {
+        validator: function (v: string) {
+          return /^\+\d{1,3}$/.test(v); // Example: +1, +91
+        },
+        message: (props: { value: any }) =>
+          `${props.value} is not a valid country code!`,
+      },
+    },
+    number: {
+      type: String,
+      required: true,
+      validate: {
+        validator: function (v: string) {
+          return /^\d{7,}$/.test(v); // Example: 1234567890
+        },
+        message: (props: { value: any }) =>
+          `${props.value} must be at least 7 digit long!`,
+      },
+    },
+  },
+  address: {
+    building: { type: String, required: true },
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    zip: { type: String, required: true },
+    country: { type: String, required: true },
+  },
   category: [{ type: String, required: true }], // e.g., 'seller', 'renter', 'service provider', etc.
   documents: {
-    TIN: { type: String, required: true },
-    TRADE_LICENSE: { type: String, required: true },
-    BIN: { type: String},
+    TIN: { type: String },
+    TRADE_LICENSE: { type: String },
+    BIN: { type: String },
   },
-  admin: { type: mongoose.Types.ObjectId, ref: 'User' },
-  employees: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
+  admin: { type: mongoose.Types.ObjectId, ref: "User", required: true },
+  employees: [{ type: mongoose.Types.ObjectId, ref: "User" }],
   verified: { type: Boolean, default: false },
+  mobileVerified: { type: Boolean, default: false },
+  emailVerified: { type: Boolean, default: false },
 });
 
-export default mongoose.model<IOrganization>('Organization', OrganizationSchema);
+export default mongoose.model<IOrganization>(
+  "Organization",
+  OrganizationSchema
+);
