@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, mongo } from "mongoose";
 import { Roles } from "./Role";
 import bcrypt from "bcrypt";
 
@@ -12,9 +12,11 @@ interface IUser extends Document {
   };
   NID?: string;
   roles: Array<{
-    organizationId: mongoose.Schema.Types.ObjectId;
+    organizationId: Schema.Types.ObjectId;
     role: string;
   }>;
+  inventory?: Schema.Types.ObjectId;
+  SYSTEM_ADMIN: boolean;
   emailVerified: boolean;
   mobileVerified: boolean;
   NIDVerified: boolean;
@@ -82,6 +84,7 @@ var userSchema: Schema = new Schema(
         },
       },
     ],
+    inventory: { type: mongoose.Schema.Types.ObjectId, ref: "Inventory" },
     SYSTEM_ADMIN: {
       type: Boolean,
       default: false,

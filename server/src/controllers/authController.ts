@@ -4,6 +4,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import User from "../models/User";
+import Inventory from "../models/Inventory";
 import asyncHandler from "express-async-handler";
 
 import {
@@ -12,6 +13,7 @@ import {
   requestPasswordResetSchema,
   resetPasswordSchema,
 } from "../validations/authValidation";
+import mongoose from "mongoose";
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
@@ -28,6 +30,13 @@ const register = asyncHandler(
     console.log(req.body);
 
     const user = new User(req.body);
+    await user.save();
+
+    // Create an inventory for the user
+    const inventory = new Inventory({ userId: user._id });
+    await inventory.save();
+
+    user.inventory = new mongoose.Schema.Types.ObjectId(inventory._id);
     await user.save();
 
     res

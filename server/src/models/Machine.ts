@@ -7,6 +7,7 @@ interface IMachine extends Document {
   machineModel: mongoose.Types.ObjectId;
   serial: String;
   owner: mongoose.Types.ObjectId;
+  inventory: mongoose.Types.ObjectId;
   price: Number;
   rent: Number;
   tickets: [mongoose.Types.ObjectId];
@@ -42,6 +43,7 @@ const machineSchema: Schema = new Schema({
     default: "Organization",
   },
   owner: {refPath: "ownerType"},
+  inventory: { type: mongoose.Schema.Types.ObjectId, ref: "Inventory" },
   price: { type: Number, default: 0 },
   rent: { type: Number, default: 0 }, // changes based on organization (later might be an object)
   tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ticket" }],
