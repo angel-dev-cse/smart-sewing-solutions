@@ -21,6 +21,14 @@ const registerSchema = Joi.object({
         "any.required": "Phone number is required",
       }),
   }).required(),
+  address: Joi.object({
+    building: Joi.string().required(),
+    street: Joi.string().required(),
+    city: Joi.string().required(),
+    state: Joi.string().required(),
+    zip: Joi.string().required(),
+    country: Joi.string().required(),
+  }).required(),
 });
 
 const loginSchema = Joi.object({

@@ -10,12 +10,20 @@ interface IUser extends Document {
     countryCode: string;
     number: string;
   };
+  address: {
+    building: string;
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+  };
   NID?: string;
   roles: Array<{
-    organizationId: Schema.Types.ObjectId;
+    organization: mongoose.Types.ObjectId;
     role: string;
   }>;
-  inventory?: Schema.Types.ObjectId;
+  inventory?: mongoose.Types.ObjectId;
   SYSTEM_ADMIN: boolean;
   emailVerified: boolean;
   mobileVerified: boolean;
@@ -66,6 +74,14 @@ var userSchema: Schema = new Schema(
         },
       },
     },
+    address: {
+      building: { type: String, required: true },
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      zip: { type: String, required: true },
+      country: { type: String, required: true },
+    },
     NID: {
       type: String,
       unique: true,
@@ -73,8 +89,8 @@ var userSchema: Schema = new Schema(
     },
     roles: [
       {
-        organizationId: {
-          type: mongoose.Schema.Types.ObjectId,
+        organization: {
+          type: mongoose.Types.ObjectId,
           required: true,
         },
         role: {
