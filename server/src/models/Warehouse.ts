@@ -1,7 +1,9 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface IWarehouse extends Document {
-  organization: Schema.Types.ObjectId;
+  name: string;
+  warehouseType: string;
+  belongsTo: Schema.Types.ObjectId;
   address: {
     building: string;
     street: string;
@@ -19,10 +21,15 @@ const warehouseSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  organization: {
-    type: Schema.Types.ObjectId,
-    ref: "Organization",
+  warehouseType: {
+    type: String,
+    enum: ["Organization", "User"],
+    default: "Organization",
+  },
+  belongsTo: {
     required: true,
+    type: Schema.Types.ObjectId,
+    refPath: "warehouseType",
   },
   address: {
     building: { type: String, required: true },
