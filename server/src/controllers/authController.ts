@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import User from "../models/User";
 import Inventory from "../models/Inventory";
+import Warehouse from "../models/Warehouse";
 import asyncHandler from "express-async-handler";
 
 import {
@@ -32,11 +32,26 @@ const register = asyncHandler(
     const user = new User(req.body);
     await user.save();
 
+    const warehouse = new Warehouse({
+      name: "Personal Warehouse",
+      warehouseType: "User",
+      belongsTo: user._id,
+      address: user.address,
+      manager: user._id,
+      remarks: "Personal warehouse for storing items",
+    });
+
+    await warehouse.save();
+
     // Create an inventory for the user
-    const inventory = new Inventory({ userId: user._id });
+    const inventory = new Inventory({
+      ownerType: "User",
+      owner: user._id,
+      warehouse: warehouse._id,
+    });
     await inventory.save();
 
-    user.inventory = new mongoose.Schema.Types.ObjectId(inventory._id);
+    user.inventory = new mongoose.Types.ObjectId((inventory._id as mongoose.Types.ObjectId).toString());
     await user.save();
 
     res
