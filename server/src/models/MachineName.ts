@@ -1,14 +1,14 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IMachineName extends Document {
-  name: String;
+  name: string;
 }
 
 const machineNameSchema: Schema = new Schema({
   name: {
-    Name: String,
-    required: true,
+    type: String,
     unique: true,
+    required: true,
   },
 });
 

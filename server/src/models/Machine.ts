@@ -65,6 +65,6 @@ const machineSchema: Schema = new Schema({
   },
 });
 
-machineSchema.index({ inventory: 1 });
+machineSchema.index({ uniqueKey: 1 });
 
 export default mongoose.model<IMachine>("Machine", machineSchema);

@@ -11,6 +11,8 @@ const addMachineSchema = Joi.object({
   machineBrand: Joi.string().required(),
   machineModel: Joi.string().required(),
   serial: Joi.string().required(),
+  ownerType: Joi.string().valid("Organization", "User").default("Organization"),
+  owner: Joi.string().required(),
   price: Joi.number().default(0),
   rent: Joi.number().default(0),
   remarks: Joi.string(),

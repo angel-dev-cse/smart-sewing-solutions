@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IMachineBrand extends Document {
-  name: string;
+  brand: string;
 }
 
 const machineBrandSchema: Schema = new Schema({
-  name: {
+  brand: {
     type: String,
     required: true,
     unique: true,
