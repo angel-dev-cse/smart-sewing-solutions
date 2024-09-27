@@ -16,6 +16,7 @@ interface IOrganization extends Document {
     country: string;
   };
   category: string[];
+  inventory: mongoose.Types.ObjectId;
   documents: {
     TIN?: string;
     TRADE_LICENSE?: string;
@@ -62,6 +63,10 @@ const OrganizationSchema: Schema = new Schema({
     country: { type: String, required: true },
   },
   category: [{ type: String, required: true }], // e.g., 'seller', 'renter', 'service provider', etc.
+  inventory: {
+    type: mongoose.Types.ObjectId,
+    ref: "Inventory",
+  },
   documents: {
     TIN: { type: String },
     TRADE_LICENSE: { type: String },
