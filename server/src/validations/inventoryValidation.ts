@@ -6,4 +6,15 @@ const createInventorySchema = Joi.object({
   warehouse: Joi.string().required(),
 });
 
-export { createInventorySchema };
+const addMachineSchema = Joi.object({
+  machineName: Joi.string().required(),
+  machineBrand: Joi.string().required(),
+  machineModel: Joi.string().required(),
+  serial: Joi.string().required(),
+  price: Joi.number().default(0),
+  rent: Joi.number().default(0),
+  remarks: Joi.string(),
+  status: Joi.string().valid("active", "inactive", "defective").default("active"),
+});
+
+export { createInventorySchema, addMachineSchema };

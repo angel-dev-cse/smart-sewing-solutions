@@ -6,24 +6,24 @@ interface IInventory extends Document {
   warehouse: Schema.Types.ObjectId;
 }
 
-const inventory = new Schema({
+const inventorySchema = new Schema({
   ownerType: {
-    required: true,
     type: String,
+    required: true,
     enum: ["Organization", "User"],
     default: "Organization",
   },
   owner: {
-    required: true,
     type: Schema.Types.ObjectId,
+    required: true,
     refPath: "ownerType",
   },
   warehouse: {
-    sparse: true,
-    unique: true,
     type: Schema.Types.ObjectId,
     ref: "Warehouse",
+    sparse: true,
+    unique: true,
   },
 });
 
-export default mongoose.model<IInventory>("Inventory", inventory);
+export default mongoose.model<IInventory>("Inventory", inventorySchema);

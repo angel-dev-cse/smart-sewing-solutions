@@ -6,6 +6,7 @@ interface IMachine extends Document {
   machineBrand: mongoose.Types.ObjectId;
   machineModel: mongoose.Types.ObjectId;
   serial: String;
+  uniqueKey: String;
   owner: mongoose.Types.ObjectId;
   inventory: mongoose.Types.ObjectId;
   price: Number;
@@ -35,15 +36,23 @@ const machineSchema: Schema = new Schema({
   serial: {
     type: String,
     required: true,
+  },
+  uniqueKey: {
+    type: String,
+    required: true,
     unique: true,
   },
-  ownerType : {
+  ownerType: {
     type: String,
     enum: ["Organization", "User"],
     default: "Organization",
   },
-  owner: {refPath: "ownerType"},
-  inventory: { type: mongoose.Schema.Types.ObjectId, ref: "Inventory" },
+  owner: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    refPath: "ownerType",
+  },
+  inventory: { type: mongoose.Types.ObjectId, ref: "Inventory" },
   price: { type: Number, default: 0 },
   rent: { type: Number, default: 0 }, // changes based on organization (later might be an object)
   tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ticket" }],
@@ -55,5 +64,7 @@ const machineSchema: Schema = new Schema({
     default: "active",
   },
 });
+
+machineSchema.index({ inventory: 1 });
 
 export default mongoose.model<IMachine>("Machine", machineSchema);
